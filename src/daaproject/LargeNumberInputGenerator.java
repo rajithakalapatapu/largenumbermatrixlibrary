@@ -16,32 +16,52 @@ public class LargeNumberInputGenerator {
 
 	public static void main(String[] args) {
 
+		// largeNumberGenerator();
+		largeMatrixGenerator();
+
+	}
+
+	private static void largeMatrixGenerator() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("How many dimensions would you like (should be a power of 2)");
+		int dimensions = scanner.nextInt();
+
+		System.out.println("What % of entries should be filled?");
+		int sparseness = scanner.nextInt();
+
+		LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness);
+		List<String> filesGenerated = largeMatrixGenerator.generate();
+		System.out.println("Generated files are ");
+		for (String file : filesGenerated) {
+			System.out.println(file);
+		}
+		scanner.close();
+	}
+
+	private static void largeNumberGenerator() {
 		Scanner scanner = new Scanner(System.in);
 
 		String inputFile = "/home/rajitha/eclipse-workspace/daaproject/src/daaproject/shohed.txt";
 
 		System.out.println("Do you want to generate random multiplicands?");
-		boolean generate =true; // scanner.nextBoolean();
+		boolean generate = true; // scanner.nextBoolean();
 		if (generate) {
 			System.out.print("enter no. of digits each number should have: ");
 			int digits = scanner.nextInt();
-
 			System.out.print("How many such numbers do u want : ");
 			int numbers = scanner.nextInt();
-     
 			writeToFile(inputFile, digits, numbers);
 		}
 		scanner.close();
-		
+
 		List<BigInteger> multiplicands = readFromFile(inputFile);
-		for(BigInteger b : multiplicands) {
+		for (BigInteger b : multiplicands) {
 			System.out.println(b);
 		}
-		
+
 		BigInteger a = multiplicands.get(0);
 		BigInteger b = multiplicands.get(1);
 		System.out.println(a.multiply(b));
-		
 	}
 
 	private static void writeToFile(String filePath, int digits, int numbers) {
@@ -78,9 +98,9 @@ public class LargeNumberInputGenerator {
 
 	private static List<BigInteger> readFromFile(String filepath) {
 		File file = new File(filepath);
-		
+
 		List<BigInteger> multiplicands = new ArrayList<>();
-		
+
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
@@ -98,7 +118,7 @@ public class LargeNumberInputGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return multiplicands;
 	}
 
