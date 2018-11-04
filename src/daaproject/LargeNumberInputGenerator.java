@@ -18,9 +18,10 @@ public class LargeNumberInputGenerator {
 
 		// largeNumberGenerator();
 		// largeMatrixGenerator();
-		LargeMatrix a = new LargeMatrix(2);
+		int dimensions = 4;
+		LargeMatrix a = new LargeMatrix(dimensions);
 		a.fillRandomValues();
-		LargeMatrix b = new LargeMatrix(2);
+		LargeMatrix b = new LargeMatrix(dimensions);
 		b.fillRandomValues();
 		a.print();
 		b.print();
