@@ -44,6 +44,9 @@ public class LargeMatrixGenerator {
 			int maximumElementsToFill = (int) Math.ceil((sparseness / 100.0f) * numberOfElements);
 					
 			System.out.println(numberOfElements + "\t" + maximumElementsToFill);
+			
+			fr.write(String.valueOf(dimensions));
+			fr.write("\n");
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < maximumElementsToFill; i++) {
 				sb.setLength(0);

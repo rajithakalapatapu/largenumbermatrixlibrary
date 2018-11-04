@@ -90,6 +90,10 @@ public class LargeMatrix {
         return parent;
     }
 
+    public void addElement(int x, int y, int data) {
+        setDataAt(x, y, data);
+    }
+
     public void print() {
         System.out.println("Printing matrix data");
         for (int i = 0; i < dimensions; i++) {

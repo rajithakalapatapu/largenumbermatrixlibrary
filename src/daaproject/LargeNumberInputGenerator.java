@@ -16,19 +16,25 @@ public class LargeNumberInputGenerator {
 
 	public static void main(String[] args) {
 
-		// largeNumberGenerator();
-		// largeMatrixGenerator();
-		int dimensions = 4;
-		LargeMatrix a = new LargeMatrix(dimensions);
-		a.fillRandomValues();
+//		largeNumberGenerator();
+//		largeMatrixGenerator();
+
+		String file1 = new String("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-1.txt");
+		String file2 = new String("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-2.txt");
+		readAndMultiplyLargeMatrices(file1, file2);
+	}
+
+	private static void readAndMultiplyLargeMatrices(String file1, String file2) {
+		LargeMatrixReader largeMatrixReader = new LargeMatrixReader();
+		LargeMatrix a = largeMatrixReader.parseFileContents(file1);
 		a.print();
 
-		LargeMatrix b = new LargeMatrix(dimensions);
-		b.fillRandomValues();
+		LargeMatrix b = largeMatrixReader.parseFileContents(file2);
 		b.print();
 
 		LargeMatrix result = a.multiplyTraditional(b);
 		result.print();
+
 		LargeMatrix strassenResult = a.multiplyStrassens(b);
 		strassenResult.print();
 
