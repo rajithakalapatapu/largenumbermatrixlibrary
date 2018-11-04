@@ -47,11 +47,13 @@ public class LargeMatrixGenerator {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < maximumElementsToFill; i++) {
 				sb.setLength(0);
+				sb.append('(');
 				sb.append(String.valueOf(random.nextInt(dimensions))); // row
 				sb.append(',');
 				sb.append(String.valueOf(random.nextInt(dimensions))); // column
 				sb.append(',');
 				sb.append(String.valueOf(random.nextInt(10) + 1)); // value of element at row, column - avoid generating 0 
+				sb.append(')');
 				sb.append('\n');
 				fr.write(sb.toString());
 			}
