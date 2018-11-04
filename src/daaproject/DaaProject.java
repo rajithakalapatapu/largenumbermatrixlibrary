@@ -25,7 +25,11 @@ public class DaaProject {
 		LargeNumber a = multiplicands.get(0);
 		LargeNumber b = multiplicands.get(1);
 		a.print();
+		System.out.println(a.numberOfDigits());
 		b.print();
+		System.out.println(b.numberOfDigits());		
+		a.add(b).print();
+		
 //		System.out.println(a.multiply(b));
 	}
 
