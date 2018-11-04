@@ -31,7 +31,7 @@ public class LargeNumberGenerator {
 			}
 		}
 	}
-	
+
 	private BigInteger generateLargeNumber(int digits) {
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
@@ -42,7 +42,5 @@ public class LargeNumberGenerator {
 		BigInteger b = new BigInteger(generatedNumber);
 		return b;
 	}
-
-
 
 }

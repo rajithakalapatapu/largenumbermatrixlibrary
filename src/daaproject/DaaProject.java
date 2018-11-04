@@ -1,6 +1,5 @@
 package daaproject;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,11 +7,12 @@ public class DaaProject {
 
 	public static void main(String[] args) {
 		/*
-		largeMatrixGenerator();
-		String file1 = new String("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-1.txt");
-		String file2 = new String("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-2.txt");
-		readAndMultiplyLargeMatrices(file1, file2);
-		*/
+		 * largeMatrixGenerator(); String file1 = new String(
+		 * "/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-1.txt");
+		 * String file2 = new String(
+		 * "/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-2.txt");
+		 * readAndMultiplyLargeMatrices(file1, file2);
+		 */
 
 		largeNumberGenerator();
 		readAndMultiplyLargeNumber("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/large-numbers.txt");
@@ -20,14 +20,13 @@ public class DaaProject {
 
 	private static void readAndMultiplyLargeNumber(String file) {
 		LargeNumberReader largeNumberReader = new LargeNumberReader();
-		List<BigInteger> multiplicands = largeNumberReader.readFromFile(file);
-		for (BigInteger b : multiplicands) {
-			System.out.println(b);
-		}
+		List<LargeNumber> multiplicands = largeNumberReader.readFromFile(file);
 
-		BigInteger a = multiplicands.get(0);
-		BigInteger b = multiplicands.get(1);
-		System.out.println(a.multiply(b));
+		LargeNumber a = multiplicands.get(0);
+		LargeNumber b = multiplicands.get(1);
+		a.print();
+		b.print();
+//		System.out.println(a.multiply(b));
 	}
 
 	private static void readAndMultiplyLargeMatrices(String file1, String file2) {

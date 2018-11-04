@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +13,10 @@ public class LargeNumberReader {
 	public LargeNumberReader() {
 	}
 
-	public List<BigInteger> readFromFile(String filepath) {
+	public List<LargeNumber> readFromFile(String filepath) {
 		File file = new File(filepath);
 
-		List<BigInteger> multiplicands = new ArrayList<>();
+		List<LargeNumber> multiplicands = new ArrayList<>();
 
 		BufferedReader br = null;
 		try {
@@ -30,7 +29,7 @@ public class LargeNumberReader {
 		String st;
 		try {
 			while ((st = br.readLine()) != null) {
-				multiplicands.add(new BigInteger(st));
+				multiplicands.add(new LargeNumber(st));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
