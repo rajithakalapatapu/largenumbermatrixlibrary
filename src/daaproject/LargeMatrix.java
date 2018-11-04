@@ -12,11 +12,19 @@ public class LargeMatrix {
 		this.data = new int[this.dimensions][this.dimensions];
 	}
 
+	private int dataAt(int xIndex, int yIndex) {
+		return data[xIndex][yIndex];
+	}
+
+	private void setDataAt(int xIndex, int yIndex, int dataToSet) {
+		data[xIndex][yIndex] = dataToSet;
+	}
+
 	public void print() {
 		System.out.println("Printing matrix data");
 		for (int i = 0; i < dimensions; i++) {
 			for (int j = 0; j < dimensions; j++) {
-				System.out.print(data[i][j] + "\t");
+				System.out.print(this.dataAt(i,j) + "\t");
 			}
 			System.out.println("\n");
 		}
@@ -29,9 +37,9 @@ public class LargeMatrix {
 			for (int j = 0; j < dimensions; j++) {
 				int sum = 0;
 				for (int k = 0; k < dimensions; k++) {
-					sum += data[i][k] * other.data[k][j];
+					sum += this.dataAt(i,k) * other.dataAt(k,j);
 				}
-				result.data[i][j] = sum;
+				result.setDataAt(i, j, sum);
 			}
 		}
 		return result;
@@ -40,7 +48,7 @@ public class LargeMatrix {
 	public boolean isEqual(LargeMatrix other) {
 		for (int i = 0; i < dimensions; i++) {
 			for (int j = 0; j < dimensions; j++) {
-				if (this.data[i][j] != other.data[i][j])
+				if (this.dataAt(i, j) != other.dataAt(i, j))
 					return false;
 			}
 		}
@@ -72,7 +80,7 @@ public class LargeMatrix {
 		Random random = new Random();
 		for (int i = 0; i < dimensions; i++) {
 			for (int j = 0; j < dimensions; j++) {
-				this.data[i][j] = random.nextInt(10);
+				this.setDataAt(i, j, random.nextInt(10));
 			}
 		}
 	}
