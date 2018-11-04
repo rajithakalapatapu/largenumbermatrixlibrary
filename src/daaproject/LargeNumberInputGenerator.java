@@ -16,9 +16,20 @@ public class LargeNumberInputGenerator {
 
 	public static void main(String[] args) {
 
-		//largeNumberGenerator();
-		largeMatrixGenerator();
+		// largeNumberGenerator();
+		// largeMatrixGenerator();
+		LargeMatrix a = new LargeMatrix(2);
+		a.fillRandomValues();
+		LargeMatrix b = new LargeMatrix(2);
+		b.fillRandomValues();
+		a.print();
+		b.print();
+		LargeMatrix result = a.multiplyTraditional(b);
+		result.print();
+		LargeMatrix strassenResult = a.multiplyStrassens(b);
+		strassenResult.print();
 
+		System.out.println(result.isEqual(strassenResult));
 	}
 
 	private static void largeMatrixGenerator() {
