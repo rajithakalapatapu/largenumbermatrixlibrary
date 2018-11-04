@@ -21,10 +21,12 @@ public class LargeNumberInputGenerator {
 		int dimensions = 4;
 		LargeMatrix a = new LargeMatrix(dimensions);
 		a.fillRandomValues();
+		a.print();
+
 		LargeMatrix b = new LargeMatrix(dimensions);
 		b.fillRandomValues();
-		a.print();
 		b.print();
+
 		LargeMatrix result = a.multiplyTraditional(b);
 		result.print();
 		LargeMatrix strassenResult = a.multiplyStrassens(b);
