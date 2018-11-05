@@ -1,21 +1,123 @@
 package daaproject;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 public class DaaProject {
 
 	public static void main(String[] args) {
-		/*
-		 * largeMatrixGenerator(); String file1 = new String(
-		 * "/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-1.txt");
-		 * String file2 = new String(
-		 * "/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-2.txt");
-		 * readAndMultiplyLargeMatrices(file1, file2);
-		 */
 
-		largeNumberGenerator();
-		readAndMultiplyLargeNumber("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/large-numbers.txt");
+		suchitraRunThis();
+
+//		largeMatrixGenerator();
+//		String file1 = new String("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-1.txt");
+//		String file2 = new String("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-2.txt");
+//		readAndMultiplyLargeMatrices(file1, file2);
+
+//		largeNumberGenerator();
+//		readAndMultiplyLargeNumber("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/large-numbers.txt");
+	}
+
+	private static void suchitraRunThis() {
+		int power = 5; // set this to a maximum of 13 or 14 - don't go beyond that.
+
+		File file = new File("large_number_results.csv");
+		FileWriter fr = null;
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			fr = new FileWriter(file);
+			fr.write("Traditional matrix multiplication\n");
+			sb.append("dimensions");
+			sb.append(",");
+			sb.append("sparseness");
+			sb.append(",");
+			sb.append("time taken (nano seconds)");
+			sb.append("\n");
+
+			fr.write(sb.toString());
+			sb.setLength(0);
+
+			int[] sparsenessValues = { 10, 25, 50, 75, 100 };
+			for (int sparseness : sparsenessValues) {
+				for (int i = 0; i < power; i++) {
+					int dimensions = (int) Math.pow(2, i);
+
+					System.out.println("Creating a " + dimensions + "x" + dimensions + " matrix - with only "
+							+ sparseness + "% of entries filled");
+					LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness);
+					List<String> filesGenerated = largeMatrixGenerator.generate();
+
+					long startTime = System.nanoTime();
+					readAndMultiplyLargeMatricesTraditional(filesGenerated.get(0), filesGenerated.get(1));
+					long endTime = System.nanoTime();
+
+					long duration = endTime - startTime;
+
+					sb.append(dimensions + "x" + dimensions);
+					sb.append(",");
+					sb.append(sparseness);
+					sb.append(",");
+					sb.append(duration);
+					sb.append("\n");
+
+					fr.write(sb.toString());
+					sb.setLength(0);
+				}
+			}
+
+			fr.write("Strassens matrix multiplication\n");
+			sb.append("dimensions");
+			sb.append(",");
+			sb.append("sparseness");
+			sb.append(",");
+			sb.append("time taken (nano seconds)");
+			sb.append("\n");
+
+			fr.write(sb.toString());
+			sb.setLength(0);
+
+			for (int sparseness : sparsenessValues) {
+				for (int i = 0; i < power; i++) {
+					int dimensions = (int) Math.pow(2, i);
+
+					System.out.println("Creating a " + dimensions + "x" + dimensions + " matrix - with only "
+							+ sparseness + "% of entries filled");
+					LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness);
+					List<String> filesGenerated = largeMatrixGenerator.generate();
+
+					long startTime = System.nanoTime();
+					readAndMultiplyLargeMatricesStrassens(filesGenerated.get(0), filesGenerated.get(1));
+					long endTime = System.nanoTime();
+
+					long duration = endTime - startTime;
+
+					sb.append(dimensions + "x" + dimensions);
+					sb.append(",");
+					sb.append(sparseness);
+					sb.append(",");
+					sb.append(duration);
+					sb.append("\n");
+
+					fr.write(sb.toString());
+					sb.setLength(0);
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			// close resources
+			try {
+				fr.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	private static void readAndMultiplyLargeNumber(String file) {
@@ -27,27 +129,36 @@ public class DaaProject {
 		a.print();
 		System.out.println(a.numberOfDigits());
 		b.print();
-		System.out.println(b.numberOfDigits());		
+		System.out.println(b.numberOfDigits());
 		a.add(b).print();
-		
+
 //		System.out.println(a.multiply(b));
 	}
 
-	private static void readAndMultiplyLargeMatrices(String file1, String file2) {
+	private static void readAndMultiplyLargeMatricesTraditional(String file1, String file2) {
 		LargeMatrixReader largeMatrixReader = new LargeMatrixReader();
 		LargeMatrix a = largeMatrixReader.parseFileContents(file1);
-		a.print();
+//		a.print();
 
 		LargeMatrix b = largeMatrixReader.parseFileContents(file2);
-		b.print();
+//		b.print();
 
 		LargeMatrix result = a.multiplyTraditional(b);
-		result.print();
+//		result.print();
 
-		LargeMatrix strassenResult = a.multiplyStrassens(b);
-		strassenResult.print();
+	}
 
-		System.out.println(result.isEqual(strassenResult));
+	private static void readAndMultiplyLargeMatricesStrassens(String file1, String file2) {
+		LargeMatrixReader largeMatrixReader = new LargeMatrixReader();
+		LargeMatrix a = largeMatrixReader.parseFileContents(file1);
+//		a.print();
+
+		LargeMatrix b = largeMatrixReader.parseFileContents(file2);
+//		b.print();
+
+		LargeMatrix result = a.multiplyStrassens(b);
+//		result.print();
+
 	}
 
 	private static void largeMatrixGenerator() {
