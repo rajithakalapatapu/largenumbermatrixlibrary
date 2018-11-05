@@ -45,7 +45,7 @@ public class LargeNumber {
 		int k = result.numberOfDigits() - 1;
 		int carry = 0;
 		int i, j;
-		for(i = this.numberOfDigits() - 1, j = other.numberOfDigits() - 1; i >= 0 && j >= 0; i--, j--) {
+		for (i = this.numberOfDigits() - 1, j = other.numberOfDigits() - 1; i >= 0 && j >= 0; i--, j--) {
 			int sum = this.digits[i] + other.digits[j] + carry;
 			result.digits[k] = sum % 10;
 			carry = sum / 10;
@@ -54,7 +54,7 @@ public class LargeNumber {
 		}
 
 		if (i < 0) {
-			while(j-- > 0) {
+			while (j-- > 0) {
 				int sum = other.digits[j] + carry;
 				result.digits[k--] = sum % 10;
 				carry = sum / 10;
@@ -66,9 +66,9 @@ public class LargeNumber {
 				carry = sum / 10;
 			}
 		}
-		
+
 		if (carry > 0) {
-            LargeNumber biggerResult = new LargeNumber(result.numberOfDigits() + 1);
+			LargeNumber biggerResult = new LargeNumber(result.numberOfDigits() + 1);
 			System.arraycopy(result.digits, 0, biggerResult.digits, 1, result.numberOfDigits());
 			biggerResult.digits[0] = carry;
 			return biggerResult;
