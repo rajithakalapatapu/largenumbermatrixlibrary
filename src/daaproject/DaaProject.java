@@ -10,7 +10,7 @@ public class DaaProject {
 
 	public static void main(String[] args) {
 
-//		suchitraRunThis();
+		suchitraRunThis();
 
 //		largeMatrixGenerator();
 //		String file1 = new String("matrix-1.txt");
