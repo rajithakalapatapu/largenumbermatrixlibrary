@@ -10,15 +10,16 @@ public class DaaProject {
 
 	public static void main(String[] args) {
 
-		suchitraRunThis();
+//		suchitraRunThis();
 
 //		largeMatrixGenerator();
-//		String file1 = new String("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-1.txt");
-//		String file2 = new String("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-2.txt");
-//		readAndMultiplyLargeMatrices(file1, file2);
+//		String file1 = new String("matrix-1.txt");
+//		String file2 = new String("matrix-2.txt");
+//		readAndMultiplyLargeMatricesTraditional(file1, file2);
+//		readAndMultiplyLargeMatricesStrassens(file1, file2);
 
 //		largeNumberGenerator();
-//		readAndMultiplyLargeNumber("/home/rajitha/eclipse-workspace/daaproject/src/daaproject/large-numbers.txt");
+//		readAndMultiplyLargeNumber("large-numbers.txt");
 	}
 
 	private static void suchitraRunThis() {
@@ -181,7 +182,7 @@ public class DaaProject {
 	private static void largeNumberGenerator() {
 		Scanner scanner = new Scanner(System.in);
 
-		String inputFile = "/home/rajitha/eclipse-workspace/daaproject/src/daaproject/large-numbers.txt";
+		String inputFile = "large-numbers.txt";
 
 		System.out.println("Do you want to generate random multiplicands?");
 		boolean generate = true; // scanner.nextBoolean();

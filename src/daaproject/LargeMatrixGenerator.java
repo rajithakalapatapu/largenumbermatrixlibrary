@@ -22,11 +22,11 @@ public class LargeMatrixGenerator {
 
 		System.out.println("Generating dense matrix of dimensions " + dimensions);
 
-		String file1 = "/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-1.txt";
+		String file1 = "matrix-1.txt";
 		generateMatrix(file1, dimensions, sparseness);
 		generatedFiles.add(file1);
 
-		String file2 = "/home/rajitha/eclipse-workspace/daaproject/src/daaproject/matrix-2.txt";
+		String file2 = "matrix-2.txt";
 		generateMatrix(file2, dimensions, sparseness);
 		generatedFiles.add(file2);
 
