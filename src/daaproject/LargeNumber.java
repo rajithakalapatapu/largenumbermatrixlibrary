@@ -492,10 +492,11 @@ public class LargeNumber {
 
 	// trim 0's in the start of a string in diff
 	public static String trimZero(String x) {
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < x.length(); i++) {
 			if (x.charAt(i) != '0') {
-				String x1 = x.substring(i);
-				return x1;
+				sb.append(x.substring(i));
+				return sb.toString();
 			}
 		}
 		return "0";
@@ -504,9 +505,11 @@ public class LargeNumber {
 	// karatsuba S5 function_append 0's
 	public static String appendZero(String x, int length) {
 		// S1 * (long) Math.pow(10, m * 2)//
+		StringBuilder sb = new StringBuilder();
+		sb.append(x);
 		for (int i = 0; i < length; i++) {
-			x = x + 0;
+			sb.append(0);
 		}
-		return x;
+		return sb.toString();
 	}
 }
