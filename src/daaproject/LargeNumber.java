@@ -11,7 +11,7 @@ public class LargeNumber {
 
 	public static void generateTimings() throws IOException, FileNotFoundException {
 
-		int power = 12; // this will generate a number with 2^power digits 
+		int power = 12; // this will generate a number with 2^power digits
 		// if you set it to 20 it will generate a number with 1,048,576 digits
 
 		File file = new File("large_number_results.csv");
@@ -48,7 +48,8 @@ public class LargeNumber {
 		}
 	}
 
-	public static long runKaratsuba(long digitsInFirstNumber, long digitsInSecondNumber) throws IOException, FileNotFoundException {
+	public static long runKaratsuba(long digitsInFirstNumber, long digitsInSecondNumber)
+			throws IOException, FileNotFoundException {
 		String d1 = "";
 		for (double a1 = 0; a1 < Math.pow(2, (double) digitsInFirstNumber); a1++) {
 			Random rand = new Random();
@@ -112,7 +113,8 @@ public class LargeNumber {
 //		System.out.println("bigProd: " + bigMul);
 	}
 
-	public static long runGauss(long digitsInFirstNumber, long digitsInSecondNumber) throws IOException, FileNotFoundException {
+	public static long runGauss(long digitsInFirstNumber, long digitsInSecondNumber)
+			throws IOException, FileNotFoundException {
 		String d1 = "";
 		for (double a1 = 0; a1 < Math.pow(2, (double) digitsInFirstNumber); a1++) {
 			Random rand = new Random();
@@ -153,6 +155,94 @@ public class LargeNumber {
 //		String bigMul = new BigInteger(d1).multiply(new BigInteger(d2)).toString();
 //		System.out.println(bigMul.equals(Product));
 //		System.out.println("bigProd: " + bigMul);
+	}
+
+	public static long runLongMultiplication(long digitsInFirstNumber, long digitsInSecondNumber)
+			throws IOException, FileNotFoundException {
+		String d1 = "";
+		for (double a1 = 0; a1 < Math.pow(2, (double) digitsInFirstNumber); a1++) {
+			Random rand = new Random();
+			int b1 = rand.nextInt(10);
+			while (a1 == 0 && b1 == 0) {
+				b1 = rand.nextInt(10);
+			}
+			String c1 = String.valueOf(b1);
+			d1 = d1 + c1;
+		}
+
+		String d2 = "";
+		for (double a2 = 0; a2 < Math.pow(2, (double) digitsInSecondNumber); a2++) {
+			Random rand = new Random();
+			int b2 = rand.nextInt(10);
+			while (a2 == 0 && b2 == 0) {
+				b2 = rand.nextInt(10);
+			}
+			String c2 = String.valueOf(b2);
+			d2 = d2 + c2;
+		}
+		// Print the 2 numbers//
+		System.out.println("first: " + d1);
+		System.out.println("second: " + d2);
+		System.out.println("");
+
+		long startTime = System.currentTimeMillis();
+		// epoch
+		String prod = longMultiplication(d1, d2);
+		String Product = trimZero(prod);
+		System.out.println("Product: " + Product);
+		long endTime = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println("Total Time taken by longMultiplication is :" + totalTime + "milliseconds");
+		return totalTime;
+//
+		// to validate the computed result
+		String bigMul = new BigInteger(d1).multiply(new BigInteger(d2)).toString();
+		System.out.println(bigMul.equals(Product));
+		System.out.println("bigProd: " + bigMul);
+	}
+
+	private static byte[] stringToDigits(String num) {
+		byte[] result = new byte[num.length()];
+		for (int i = 0; i < num.length(); i++) {
+			char c = num.charAt(i);
+			if (c < '0' || c > '9') {
+				throw new IllegalArgumentException("Invalid digit " + c + " found at position " + i);
+			}
+			result[num.length() - 1 - i] = (byte) (c - '0');
+		}
+		return result;
+	}
+
+	private static String longMultiplication(String d1, String d2) {
+		// TODO Auto-generated method stub
+		byte[] left = stringToDigits(d1);
+		byte[] right = stringToDigits(d2);
+		byte[] result = new byte[left.length + right.length];
+		for (int rightPos = 0; rightPos < right.length; rightPos++) {
+			byte rightDigit = right[rightPos];
+			byte temp = 0;
+			for (int leftPos = 0; leftPos < left.length; leftPos++) {
+				temp += result[leftPos + rightPos];
+				temp += rightDigit * left[leftPos];
+				result[leftPos + rightPos] = (byte) (temp % 10);
+				temp /= 10;
+			}
+			int destPos = rightPos + left.length;
+			while (temp != 0) {
+				temp += result[destPos] & 0xFFFFFFFFL;
+				result[destPos] = (byte) (temp % 10);
+				temp /= 10;
+				destPos++;
+			}
+		}
+		StringBuilder stringResultBuilder = new StringBuilder(result.length);
+		for (int i = result.length - 1; i >= 0; i--) {
+			byte digit = result[i];
+			if (digit != 0 || stringResultBuilder.length() > 0) {
+				stringResultBuilder.append((char) (digit + '0'));
+			}
+		}
+		return stringResultBuilder.toString();
 	}
 
 	public static String gauss(String x, String y) {
