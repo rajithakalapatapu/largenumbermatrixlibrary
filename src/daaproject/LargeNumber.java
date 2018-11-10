@@ -1,23 +1,70 @@
 package daaproject;
 
-import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
-import java.io.*;
-import java.math.*;
+import java.util.Scanner;
 
 public class LargeNumber {
-	public static void runKaratsuba() throws IOException, FileNotFoundException {
-		long x, y;
-		String s1, s2;
 
-		System.out.println("Enter two integer numbers\n");
-		try (Scanner s = new Scanner(System.in)) {
-			x = s.nextLong();
-			y = s.nextLong();
+	public static void generateTimings() throws IOException, FileNotFoundException {
+
+		int power = 12; // this will generate a number with 2^power digits 
+		// if you set it to 20 it will generate a number with 1,048,576 digits
+
+		File file = new File("large_number_results.csv");
+		FileWriter fr = null;
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			fr = new FileWriter(file);
+			sb.append("Large Number Multiplication");
+			sb.append("\n");
+			sb.append("Karatsuba algorithm");
+			sb.append("\n");
+			sb.append("Number of digits");
+			sb.append(',');
+			sb.append("Time in milliseconds");
+			sb.append('\n');
+
+			for (int i = 0; i < power; i++) {
+				sb.append(i + "," + runKaratsuba(i, i) + "\n");
+			}
+
+			sb.append("Gauss algorithm");
+			sb.append("\n");
+			sb.append("Number of digits");
+			sb.append(',');
+			sb.append("Time in milliseconds");
+			sb.append('\n');
+
+			for (int i = 0; i < power; i++) {
+				sb.append(i + "," + runGauss(i, i) + "\n");
+			}
+
+			fr.write(sb.toString());
+			sb.setLength(0);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			// close resources
+			try {
+				fr.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+	}
 
+	public static void generateTimingsForGauss() throws IOException, FileNotFoundException {
+		
+	}
+	public static long runKaratsuba(long digitsInFirstNumber, long digitsInSecondNumber) throws IOException, FileNotFoundException {
 		String d1 = "";
-		for (double a1 = 0; a1 < Math.pow(2, (double) x); a1++) {
+		for (double a1 = 0; a1 < Math.pow(2, (double) digitsInFirstNumber); a1++) {
 			Random rand = new Random();
 			int b1 = rand.nextInt(10);
 			while (a1 == 0 && b1 == 0) {
@@ -28,7 +75,7 @@ public class LargeNumber {
 		}
 
 		String d2 = "";
-		for (double a2 = 0; a2 < Math.pow(2, (double) y); a2++) {
+		for (double a2 = 0; a2 < Math.pow(2, (double) digitsInSecondNumber); a2++) {
 			Random rand = new Random();
 			int b2 = rand.nextInt(10);
 			while (a2 == 0 && b2 == 0) {
@@ -38,9 +85,9 @@ public class LargeNumber {
 			d2 = d2 + c2;
 		}
 		// Print the 2 numbers//
-		System.out.println("first: " + d1);
-		System.out.println("second: " + d2);
-		System.out.println("");
+//		System.out.println("first: " + d1);
+//		System.out.println("second: " + d2);
+//		System.out.println("");
 
 //        FileWriter fileW = new FileWriter("C:\\Users\\sneha\\Documents\\Project_IO_Files\\input.txt");
 //        fileW.write(d1);
@@ -60,35 +107,28 @@ public class LargeNumber {
 		// epoch
 		String prod = karatsuba(d1, d2);
 		String Product = trimZero(prod);
-		System.out.println("Product: " + Product);
+//		System.out.println("Product: " + Product);
 		long endTime = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		System.out.println("Total Time taken by Karatsuba is :" + totalTime + "milliseconds");
+//		System.out.println("Total Time taken by Karatsuba is :" + totalTime + "milliseconds");
 
+		return totalTime;
 //        fileW = new FileWriter("C:\\Users\\sneha\\Documents\\Project_IO_Files\\output.txt"); 
 //        fileW.write(prod);
 //        fileW.write(System.lineSeparator());
 //        fileW.write(System.lineSeparator());
 //        fileW.write(String.valueOf(totalTime));
 //        fileW.close();
-
-		// to validate the computed result
-		String bigMul = new BigInteger(d1).multiply(new BigInteger(d2)).toString();
-		System.out.println(bigMul.equals(Product));
-		System.out.println("bigProd: " + bigMul);
+//
+//		// to validate the computed result
+//		String bigMul = new BigInteger(d1).multiply(new BigInteger(d2)).toString();
+//		System.out.println(bigMul.equals(Product));
+//		System.out.println("bigProd: " + bigMul);
 	}
 
-	public static void runGauss() throws IOException, FileNotFoundException {
-		long x, y;
-
-		System.out.println("Gauss - Enter two integer numbers\n");
-		try (Scanner s = new Scanner(System.in)) {
-			x = s.nextLong();
-			y = s.nextLong();
-		}
-
+	public static long runGauss(long digitsInFirstNumber, long digitsInSecondNumber) throws IOException, FileNotFoundException {
 		String d1 = "";
-		for (double a1 = 0; a1 < Math.pow(2, (double) x); a1++) {
+		for (double a1 = 0; a1 < Math.pow(2, (double) digitsInFirstNumber); a1++) {
 			Random rand = new Random();
 			int b1 = rand.nextInt(10);
 			while (a1 == 0 && b1 == 0) {
@@ -99,7 +139,7 @@ public class LargeNumber {
 		}
 
 		String d2 = "";
-		for (double a2 = 0; a2 < Math.pow(2, (double) y); a2++) {
+		for (double a2 = 0; a2 < Math.pow(2, (double) digitsInSecondNumber); a2++) {
 			Random rand = new Random();
 			int b2 = rand.nextInt(10);
 			while (a2 == 0 && b2 == 0) {
@@ -109,23 +149,24 @@ public class LargeNumber {
 			d2 = d2 + c2;
 		}
 		// Print the 2 numbers//
-		System.out.println("first: " + d1);
-		System.out.println("second: " + d2);
-		System.out.println("");
+//		System.out.println("first: " + d1);
+//		System.out.println("second: " + d2);
+//		System.out.println("");
 
 		long startTime = System.currentTimeMillis();
 		// epoch
 		String prod = gauss(d1, d2);
 		String Product = trimZero(prod);
-		System.out.println("Product: " + Product);
+//		System.out.println("Product: " + Product);
 		long endTime = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		System.out.println("Total Time taken by gauss is :" + totalTime + "milliseconds");
-
-		// to validate the computed result
-		String bigMul = new BigInteger(d1).multiply(new BigInteger(d2)).toString();
-		System.out.println(bigMul.equals(Product));
-		System.out.println("bigProd: " + bigMul);
+//		System.out.println("Total Time taken by gauss is :" + totalTime + "milliseconds");
+		return totalTime;
+//
+//		// to validate the computed result
+//		String bigMul = new BigInteger(d1).multiply(new BigInteger(d2)).toString();
+//		System.out.println(bigMul.equals(Product));
+//		System.out.println("bigProd: " + bigMul);
 	}
 
 	public static String gauss(String x, String y) {

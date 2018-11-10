@@ -12,9 +12,9 @@ public class DaaProject {
 	public static void main(String[] args) {
 
         try {
-//			BigNumber.runKaratsuba();
-			LargeNumber.runGauss();
-
+			System.out.println("Starting timing studies for LargeNumber multiplication");
+			LargeNumber.generateTimings();
+			System.out.println("Completed timing studies for LargeNumber multiplication...");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -38,7 +38,7 @@ public class DaaProject {
 	private static void suchitraRunThis() {
 		int power = 5; // set this to a maximum of 13 or 14 - don't go beyond that.
 
-		File file = new File("large_number_results.csv");
+		File file = new File("large_matrix_results.csv");
 		FileWriter fr = null;
 		StringBuilder sb = new StringBuilder();
 
@@ -71,7 +71,7 @@ public class DaaProject {
 
 					long duration = endTime - startTime;
 
-					sb.append(dimensions + "x" + dimensions);
+					sb.append(dimensions);
 					sb.append(",");
 					sb.append(sparseness);
 					sb.append(",");
@@ -109,7 +109,7 @@ public class DaaProject {
 
 					long duration = endTime - startTime;
 
-					sb.append(dimensions + "x" + dimensions);
+					sb.append(dimensions);
 					sb.append(",");
 					sb.append(sparseness);
 					sb.append(",");
