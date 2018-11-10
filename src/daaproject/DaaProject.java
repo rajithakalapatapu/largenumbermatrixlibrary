@@ -38,16 +38,14 @@ public class DaaProject {
 
 		try {
 			fr = new FileWriter(file);
-			fr.write("Traditional matrix multiplication\n");
 			sb.append("dimensions");
 			sb.append(",");
 			sb.append("sparseness");
 			sb.append(",");
-			sb.append("time taken (milli seconds)");
+			sb.append("Traditional Multiplication - time taken (milli seconds)");
+			sb.append(",");
+			sb.append("Strassens Multiplication - time taken (milli seconds)");
 			sb.append("\n");
-
-			fr.write(sb.toString());
-			sb.setLength(0);
 
 			int[] sparsenessValues = { 10, 25, 50, 75, 100 };
 			for (int sparseness : sparsenessValues) {
@@ -62,59 +60,26 @@ public class DaaProject {
 					long startTime = System.currentTimeMillis();
 					readAndMultiplyLargeMatricesTraditional(filesGenerated.get(0), filesGenerated.get(1));
 					long endTime = System.currentTimeMillis();
+					long traditionalDuration = endTime - startTime;
 
-					long duration = endTime - startTime;
-
-					sb.append(dimensions);
-					sb.append(",");
-					sb.append(sparseness);
-					sb.append(",");
-					sb.append(duration);
-					sb.append("\n");
-
-					fr.write(sb.toString());
-					sb.setLength(0);
-				}
-			}
-
-			fr.write("Strassens matrix multiplication\n");
-			sb.append("dimensions");
-			sb.append(",");
-			sb.append("sparseness");
-			sb.append(",");
-			sb.append("time taken (nano seconds)");
-			sb.append("\n");
-
-			fr.write(sb.toString());
-			sb.setLength(0);
-
-			for (int sparseness : sparsenessValues) {
-				for (int i = 0; i <= power; i++) {
-					int dimensions = (int) Math.pow(2, i);
-
-					System.out.println("Creating a " + dimensions + "x" + dimensions + " matrix - with only "
-							+ sparseness + "% of entries filled");
-					LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness);
-					List<String> filesGenerated = largeMatrixGenerator.generate();
-
-					long startTime = System.currentTimeMillis();
+					startTime = System.currentTimeMillis();
 					readAndMultiplyLargeMatricesStrassens(filesGenerated.get(0), filesGenerated.get(1));
-					long endTime = System.currentTimeMillis();
-
-					long duration = endTime - startTime;
+					endTime = System.currentTimeMillis();
+					long strassensDuration = endTime - startTime;
 
 					sb.append(dimensions);
 					sb.append(",");
 					sb.append(sparseness);
 					sb.append(",");
-					sb.append(duration);
+					sb.append(traditionalDuration);
+					sb.append(",");
+					sb.append(strassensDuration);
 					sb.append("\n");
 
 					fr.write(sb.toString());
 					sb.setLength(0);
 				}
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
