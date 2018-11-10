@@ -13,10 +13,10 @@ public class LargeNumberReader {
 	public LargeNumberReader() {
 	}
 
-	public List<LargeNumber> readFromFile(String filepath) {
+	public List<LargeNumberOld> readFromFile(String filepath) {
 		File file = new File(filepath);
 
-		List<LargeNumber> multiplicands = new ArrayList<>();
+		List<LargeNumberOld> multiplicands = new ArrayList<>();
 
 		BufferedReader br = null;
 		try {
@@ -29,7 +29,7 @@ public class LargeNumberReader {
 		String st;
 		try {
 			while ((st = br.readLine()) != null) {
-				multiplicands.add(new LargeNumber(st));
+				multiplicands.add(new LargeNumberOld(st));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

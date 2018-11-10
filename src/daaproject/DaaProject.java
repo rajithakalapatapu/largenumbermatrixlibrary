@@ -13,7 +13,7 @@ public class DaaProject {
 
         try {
 //			BigNumber.runKaratsuba();
-			BigNumber.runGauss();
+			LargeNumber.runGauss();
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -136,10 +136,10 @@ public class DaaProject {
 
 	private static void readAndMultiplyLargeNumber(String file) {
 		LargeNumberReader largeNumberReader = new LargeNumberReader();
-		List<LargeNumber> multiplicands = largeNumberReader.readFromFile(file);
+		List<LargeNumberOld> multiplicands = largeNumberReader.readFromFile(file);
 
-		LargeNumber a = multiplicands.get(0);
-		LargeNumber b = multiplicands.get(1);
+		LargeNumberOld a = multiplicands.get(0);
+		LargeNumberOld b = multiplicands.get(1);
 		a.print();
 		System.out.println(a.numberOfDigits());
 		b.print();
