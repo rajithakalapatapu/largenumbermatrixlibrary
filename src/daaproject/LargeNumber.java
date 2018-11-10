@@ -24,13 +24,15 @@ public class LargeNumber {
 			sb.append("\n");
 			sb.append("Number of digits");
 			sb.append(',');
+			sb.append("Traditional Long Multiplication algorithm - Time in milliseconds");
+			sb.append(',');
 			sb.append("Gauss algorithm - Time in milliseconds");
 			sb.append(',');
 			sb.append("Karatsuba algorithm - Time in milliseconds");
 			sb.append('\n');
 
 			for (int i = 0; i <= power; i++) {
-				sb.append(i + "," + runGauss(i, i) + "," + runKaratsuba(i, i) + "\n");
+				sb.append(i + "," + runLongMultiplication(i, i) + ", " + runGauss(i, i) + "," + runKaratsuba(i, i) + "\n");
 			}
 
 			fr.write(sb.toString());
@@ -181,24 +183,26 @@ public class LargeNumber {
 			d2 = d2 + c2;
 		}
 		// Print the 2 numbers//
-		System.out.println("first: " + d1);
-		System.out.println("second: " + d2);
-		System.out.println("");
+//		System.out.println("first: " + d1);
+//		System.out.println("second: " + d2);
+//		System.out.println("");
 
 		long startTime = System.currentTimeMillis();
 		// epoch
 		String prod = longMultiplication(d1, d2);
 		String Product = trimZero(prod);
-		System.out.println("Product: " + Product);
+//		System.out.println("Product: " + Product);
 		long endTime = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		System.out.println("Total Time taken by longMultiplication is :" + totalTime + "milliseconds");
-		return totalTime;
+
+//		System.out.println("Total Time taken by longMultiplication is :" + totalTime + "milliseconds");
+//		// to validate the computed result
+//		String bigMul = new BigInteger(d1).multiply(new BigInteger(d2)).toString();
+//		System.out.println(bigMul.equals(Product));
+//		System.out.println("bigProd: " + bigMul);
 //
-		// to validate the computed result
-		String bigMul = new BigInteger(d1).multiply(new BigInteger(d2)).toString();
-		System.out.println(bigMul.equals(Product));
-		System.out.println("bigProd: " + bigMul);
+		return totalTime;
+
 	}
 
 	private static byte[] stringToDigits(String num) {
