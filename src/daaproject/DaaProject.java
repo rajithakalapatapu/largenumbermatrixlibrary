@@ -12,7 +12,9 @@ public class DaaProject {
 	public static void main(String[] args) {
 
         try {
-			BigNumber.runKaratsuba();
+//			BigNumber.runKaratsuba();
+			BigNumber.runGauss();
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
