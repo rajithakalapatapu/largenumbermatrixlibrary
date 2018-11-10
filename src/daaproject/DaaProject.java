@@ -18,6 +18,8 @@ public class DaaProject {
 			System.out.println("Starting timing studies for LargeMatrix multiplication");
 			generateTimingsForMatrixMultiplication();
 			System.out.println("Completed timing studies for LargeMatrix multiplication...");
+			
+			System.out.println("Done!");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

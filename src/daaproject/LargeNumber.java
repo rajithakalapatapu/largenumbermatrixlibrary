@@ -48,9 +48,6 @@ public class LargeNumber {
 		}
 	}
 
-	public static void generateTimingsForGauss() throws IOException, FileNotFoundException {
-		
-	}
 	public static long runKaratsuba(long digitsInFirstNumber, long digitsInSecondNumber) throws IOException, FileNotFoundException {
 		String d1 = "";
 		for (double a1 = 0; a1 < Math.pow(2, (double) digitsInFirstNumber); a1++) {
