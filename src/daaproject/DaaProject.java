@@ -1,6 +1,7 @@
 package daaproject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -10,7 +11,17 @@ public class DaaProject {
 
 	public static void main(String[] args) {
 
-		suchitraRunThis();
+        try {
+			BigNumber.runKaratsuba();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+//		suchitraRunThis();
 
 //		largeMatrixGenerator();
 //		String file1 = new String("matrix-1.txt");
@@ -145,7 +156,7 @@ public class DaaProject {
 //		b.print();
 
 		LargeMatrix result = a.multiplyTraditional(b);
-//		result.print();
+		result.print();
 
 	}
 
@@ -158,7 +169,7 @@ public class DaaProject {
 //		b.print();
 
 		LargeMatrix result = a.multiplyStrassens(b);
-//		result.print();
+		result.print();
 
 	}
 
