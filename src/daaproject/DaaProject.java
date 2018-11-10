@@ -10,11 +10,14 @@ import java.util.Scanner;
 public class DaaProject {
 
 	public static void main(String[] args) {
-
         try {
 			System.out.println("Starting timing studies for LargeNumber multiplication");
 			LargeNumber.generateTimings();
 			System.out.println("Completed timing studies for LargeNumber multiplication...");
+
+			System.out.println("Starting timing studies for LargeMatrix multiplication");
+			generateTimingsForMatrixMultiplication();
+			System.out.println("Completed timing studies for LargeMatrix multiplication...");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -22,20 +25,9 @@ public class DaaProject {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-//		suchitraRunThis();
-
-//		largeMatrixGenerator();
-//		String file1 = new String("matrix-1.txt");
-//		String file2 = new String("matrix-2.txt");
-//		readAndMultiplyLargeMatricesTraditional(file1, file2);
-//		readAndMultiplyLargeMatricesStrassens(file1, file2);
-
-//		largeNumberGenerator();
-//		readAndMultiplyLargeNumber("large-numbers.txt");
 	}
 
-	private static void suchitraRunThis() {
+	private static void generateTimingsForMatrixMultiplication() {
 		int power = 5; // set this to a maximum of 13 or 14 - don't go beyond that.
 
 		File file = new File("large_matrix_results.csv");
@@ -49,7 +41,7 @@ public class DaaProject {
 			sb.append(",");
 			sb.append("sparseness");
 			sb.append(",");
-			sb.append("time taken (nano seconds)");
+			sb.append("time taken (milli seconds)");
 			sb.append("\n");
 
 			fr.write(sb.toString());
@@ -57,7 +49,7 @@ public class DaaProject {
 
 			int[] sparsenessValues = { 10, 25, 50, 75, 100 };
 			for (int sparseness : sparsenessValues) {
-				for (int i = 0; i < power; i++) {
+				for (int i = 0; i <= power; i++) {
 					int dimensions = (int) Math.pow(2, i);
 
 					System.out.println("Creating a " + dimensions + "x" + dimensions + " matrix - with only "
@@ -65,9 +57,9 @@ public class DaaProject {
 					LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness);
 					List<String> filesGenerated = largeMatrixGenerator.generate();
 
-					long startTime = System.nanoTime();
+					long startTime = System.currentTimeMillis();
 					readAndMultiplyLargeMatricesTraditional(filesGenerated.get(0), filesGenerated.get(1));
-					long endTime = System.nanoTime();
+					long endTime = System.currentTimeMillis();
 
 					long duration = endTime - startTime;
 
@@ -95,7 +87,7 @@ public class DaaProject {
 			sb.setLength(0);
 
 			for (int sparseness : sparsenessValues) {
-				for (int i = 0; i < power; i++) {
+				for (int i = 0; i <= power; i++) {
 					int dimensions = (int) Math.pow(2, i);
 
 					System.out.println("Creating a " + dimensions + "x" + dimensions + " matrix - with only "
@@ -103,9 +95,9 @@ public class DaaProject {
 					LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness);
 					List<String> filesGenerated = largeMatrixGenerator.generate();
 
-					long startTime = System.nanoTime();
+					long startTime = System.currentTimeMillis();
 					readAndMultiplyLargeMatricesStrassens(filesGenerated.get(0), filesGenerated.get(1));
-					long endTime = System.nanoTime();
+					long endTime = System.currentTimeMillis();
 
 					long duration = endTime - startTime;
 

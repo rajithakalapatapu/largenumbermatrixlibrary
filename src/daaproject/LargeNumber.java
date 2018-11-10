@@ -22,26 +22,15 @@ public class LargeNumber {
 			fr = new FileWriter(file);
 			sb.append("Large Number Multiplication");
 			sb.append("\n");
-			sb.append("Karatsuba algorithm");
-			sb.append("\n");
 			sb.append("Number of digits");
 			sb.append(',');
-			sb.append("Time in milliseconds");
-			sb.append('\n');
-
-			for (int i = 0; i < power; i++) {
-				sb.append(i + "," + runKaratsuba(i, i) + "\n");
-			}
-
-			sb.append("Gauss algorithm");
-			sb.append("\n");
-			sb.append("Number of digits");
+			sb.append("Gauss algorithm - Time in milliseconds");
 			sb.append(',');
-			sb.append("Time in milliseconds");
+			sb.append("Karatsuba algorithm - Time in milliseconds");
 			sb.append('\n');
 
-			for (int i = 0; i < power; i++) {
-				sb.append(i + "," + runGauss(i, i) + "\n");
+			for (int i = 0; i <= power; i++) {
+				sb.append(i + "," + runGauss(i, i) + "," + runKaratsuba(i, i) + "\n");
 			}
 
 			fr.write(sb.toString());
