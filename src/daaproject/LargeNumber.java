@@ -101,7 +101,6 @@ public class LargeNumber {
 		long totalTime = endTime - startTime;
 //		System.out.println("Total Time taken by Karatsuba is :" + totalTime + "milliseconds");
 
-		return totalTime;
 //        fileW = new FileWriter("C:\\Users\\sneha\\Documents\\Project_IO_Files\\output.txt"); 
 //        fileW.write(prod);
 //        fileW.write(System.lineSeparator());
@@ -113,6 +112,8 @@ public class LargeNumber {
 //		String bigMul = new BigInteger(d1).multiply(new BigInteger(d2)).toString();
 //		System.out.println(bigMul.equals(Product));
 //		System.out.println("bigProd: " + bigMul);
+//
+		return totalTime;
 	}
 
 	public static long runGauss(long digitsInFirstNumber, long digitsInSecondNumber)
@@ -151,12 +152,12 @@ public class LargeNumber {
 		long endTime = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
 //		System.out.println("Total Time taken by gauss is :" + totalTime + "milliseconds");
-		return totalTime;
 //
 //		// to validate the computed result
 //		String bigMul = new BigInteger(d1).multiply(new BigInteger(d2)).toString();
 //		System.out.println(bigMul.equals(Product));
 //		System.out.println("bigProd: " + bigMul);
+		return totalTime;
 	}
 
 	public static long runLongMultiplication(long digitsInFirstNumber, long digitsInSecondNumber)
@@ -366,23 +367,25 @@ public class LargeNumber {
 			/*
 			 * prepend the diff of digits with 0 for y now add x n y
 			 */
-			String a = "";
+			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < x.length() - y.length(); i++) {
-				a = a + 0;
+				sb.append('0');
 			}
-			y = a + y;
+			sb.append(y);
+			y = sb.toString();
 		} else if (x.length() < y.length()) {
 			/*
 			 * prepend the diff of digits with 0 for x now add x n y
 			 */
-			String a = "";
+			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < y.length() - x.length(); i++) {
-				a = a + 0;
+				sb.append('0');
 			}
-			x = a + x;
+			sb.append(x);
+			x = sb.toString();
 		}
 		int carry = 0;
-		String sum = "";
+		StringBuilder sb = new StringBuilder();
 		char[] x2 = x.toCharArray();
 		char[] y2 = y.toCharArray();
 		for (int i = x.length() - 1; i >= 0; i--) {
@@ -394,20 +397,18 @@ public class LargeNumber {
 			if (z1 >= 10) {
 				carry = 1;
 				z1 = z1 - 10;
-				sum = sum + z1;
+				sb.append(z1);
 			} else {
-				sum = sum + z1;
+				sb.append(z1);
 			}
 		}
 
 		if (carry != 0) {
-			sum = sum + "1";
+			sb.append("1");
 		}
 
-		StringBuilder s = new StringBuilder();
-		s.append(sum);
-		s = s.reverse();
-		return s.toString();
+		sb = sb.reverse();
+		return sb.toString();
 	}
 
 	// difference of 2 strings
@@ -433,7 +434,7 @@ public class LargeNumber {
 		}
 
 		String z = maxString(x, y);
-		String diff = "";
+		StringBuilder diff = new StringBuilder();
 		boolean isNegative = false;
 		if (z == y) {
 			isNegative = true;
@@ -446,20 +447,22 @@ public class LargeNumber {
 			/*
 			 * prepend the diff of digits with 0 for y now add x n y
 			 */
-			String a = "";
+			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < x.length() - y.length(); i++) {
-				a = a + 0;
+				sb.append('0');
 			}
-			y = a + y;
+			sb.append(y);
+			y = sb.toString();
 		} else if (x.length() < y.length()) {
 			/*
 			 * prepend the diff of digits with 0 for x now add x n y
 			 */
-			String a = "";
+			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < y.length() - x.length(); i++) {
-				a = a + 0;
+				sb.append('0');
 			}
-			x = a + x;
+			sb.append(x);
+			x = sb.toString();
 		}
 
 		int borrow = 0;
@@ -471,17 +474,16 @@ public class LargeNumber {
 			int y1 = y2[i] - '0';
 			borrow = 0;
 			if (x1 >= y1) {
-				diff = diff + (x1 - y1);
+				diff.append(x1 - y1);
 			} else if (x1 < y1) {
 				borrow--;
 				x1 = 10 + x1;
-				diff = diff + (x1 - y1);
+				diff.append(x1 - y1);
 			}
 		}
-		StringBuilder s = new StringBuilder();
-		s.append(diff);
-		s = s.reverse();
-		String s1 = trimZero(s.toString());
+
+		diff = diff.reverse();
+		String s1 = trimZero(diff.toString());
 
 		if (isNegative) {
 			return "-" + s1;
