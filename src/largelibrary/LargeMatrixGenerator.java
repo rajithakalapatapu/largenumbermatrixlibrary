@@ -11,29 +11,31 @@ public class LargeMatrixGenerator {
 
 	private int dimensions = 0;
 	private int sparseness = 0;
+	private boolean generateLargeNumbers = false;
 
-	public LargeMatrixGenerator(int dimensions, int sparseness) {
+	public LargeMatrixGenerator(int dimensions, int sparseness, boolean generateLargeNumbers) {
 		this.dimensions = dimensions;
 		this.sparseness = sparseness;
+		this.generateLargeNumbers = generateLargeNumbers;
 	}
 
-	public List<String> generate() {
+	public List<String> generate(int digits) {
 		List<String> generatedFiles = new ArrayList<>();
 
 		System.out.println("Generating dense matrix of dimensions " + dimensions);
 
 		String file1 = "matrix-1.txt";
-		generateMatrix(file1, dimensions, sparseness);
+		generateMatrix(file1, dimensions, sparseness, digits);
 		generatedFiles.add(file1);
 
 		String file2 = "matrix-2.txt";
-		generateMatrix(file2, dimensions, sparseness);
+		generateMatrix(file2, dimensions, sparseness, digits);
 		generatedFiles.add(file2);
 
 		return generatedFiles;
 	}
 
-	private void generateMatrix(String filePath, int dimensions, int sparseness) {
+	private void generateMatrix(String filePath, int dimensions, int sparseness, int digits) {
 		Random random = new Random();
 		File file = new File(filePath);
 		FileWriter fr = null;
@@ -55,7 +57,11 @@ public class LargeMatrixGenerator {
 				sb.append(',');
 				sb.append(String.valueOf(random.nextInt(dimensions))); // column
 				sb.append(',');
-				sb.append(String.valueOf(random.nextInt(10) + 1)); // value of element at row, column - avoid generating 0 
+				if (this.generateLargeNumbers) {
+					sb.append(LargeNumber.generateRandomNumber(digits) + "1");
+				} else {
+					sb.append(String.valueOf(random.nextInt(10) + 1)); // value of element at row, column - avoid generating 0
+				}
 				sb.append(')');
 				sb.append('\n');
 				fr.write(sb.toString());

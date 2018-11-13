@@ -206,7 +206,7 @@ public class LargeNumber {
 
 	}
 
-	private static byte[] stringToDigits(String num) {
+	public static byte[] stringToDigits(String num) {
 		byte[] result = new byte[num.length()];
 		for (int i = 0; i < num.length(); i++) {
 			char c = num.charAt(i);
@@ -511,6 +511,15 @@ public class LargeNumber {
 		sb.append(x);
 		for (int i = 0; i < length; i++) {
 			sb.append(0);
+		}
+		return sb.toString();
+	}
+
+	public static String generateRandomNumber(int digits) {
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < digits; i++) {
+			sb.append(random.nextInt(10));
 		}
 		return sb.toString();
 	}

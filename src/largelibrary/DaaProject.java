@@ -10,6 +10,12 @@ import java.util.Scanner;
 public class DaaProject {
 
 	public static void main(String[] args) {
+		runProjectInLoop();
+//		largeMatrixGenerator();
+//		readAndMultiplyLargeMatricesWithLargeNumbersStrassens("matrix-1.txt", "matrix-2.txt").print();
+	}
+
+	private static void runProjectInLoop() {
 		try {
 			Scanner scanner = new Scanner(System.in);
 
@@ -18,7 +24,7 @@ public class DaaProject {
 			sb.append("Press 1 for large number multiplication \n");
 			sb.append("Press 2 for large matrix multiplication \n");
 			sb.append("Press 3 for large matrix with large number multiplication \n");
-			sb.append("Press 4 for all timing studies\n");
+			sb.append("Press 4 for all timing studies \n");
 			sb.append("Press quit to stop testing \n");
 			System.out.println(sb.toString());
 			String enteredText = scanner.next();
@@ -45,8 +51,20 @@ public class DaaProject {
 					System.out.println("Are the two results equal? " + traditionalResult.isEqual(strassensResult));
 					break;
 				case 3:
+					System.out.println("Enter the path to file 1");
+					file1 = scanner.next();
+					System.out.println("Enter the path to file 2");
+					file2 = scanner.next();
+					LargeMatrixWithLargeNumbers tradResult = readAndMultiplyLargeMatricesWithLargeNumbersTraditional(file1, file2);
+					System.out.println("Traditional result is: ");
+					tradResult.print();
+					LargeMatrixWithLargeNumbers strasResult = readAndMultiplyLargeMatricesWithLargeNumbersStrassens(file1, file2);
+					System.out.println("Strassens result is: ");
+					strasResult.print();
+					System.out.println("Are the two results equal? " + tradResult.isEqual(strasResult));
 					break;
 				case 4:
+					System.out.println("Running timing studies...");
 					runTimingStudies();
 					break;
 				default:
@@ -102,8 +120,9 @@ public class DaaProject {
 
 					System.out.println("Creating a " + dimensions + "x" + dimensions + " matrix - with only "
 							+ sparseness + "% of entries filled");
-					LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness);
-					List<String> filesGenerated = largeMatrixGenerator.generate();
+					boolean generateLargeNumbers = false;
+					LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness, generateLargeNumbers);
+					List<String> filesGenerated = largeMatrixGenerator.generate(10);
 
 					long startTime = System.currentTimeMillis();
 					readAndMultiplyLargeMatricesTraditional(filesGenerated.get(0), filesGenerated.get(1));
@@ -183,6 +202,28 @@ public class DaaProject {
 		return result;
 	}
 
+	private static LargeMatrixWithLargeNumbers readAndMultiplyLargeMatricesWithLargeNumbersStrassens(String file1, String file2) {
+		LargeMatrixWithLargeNumbersReader largeMatrixWithLargeNumbersReader = new LargeMatrixWithLargeNumbersReader();
+		LargeMatrixWithLargeNumbers a = largeMatrixWithLargeNumbersReader.parseFileContents(file1);
+//		a.print();
+
+		LargeMatrixWithLargeNumbers b = largeMatrixWithLargeNumbersReader.parseFileContents(file2);
+//		b.print();
+
+		return a.multiplyStrassens(b);
+	}
+
+	private static LargeMatrixWithLargeNumbers readAndMultiplyLargeMatricesWithLargeNumbersTraditional(String file1, String file2) {
+		LargeMatrixWithLargeNumbersReader largeMatrixWithLargeNumbersReader = new LargeMatrixWithLargeNumbersReader();
+		LargeMatrixWithLargeNumbers a = largeMatrixWithLargeNumbersReader.parseFileContents(file1);
+//		a.print();
+
+		LargeMatrixWithLargeNumbers b = largeMatrixWithLargeNumbersReader.parseFileContents(file2);
+//		b.print();
+
+		return a.multiplyTraditional(b);
+	}
+
 	private static void largeMatrixGenerator() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("How many dimensions would you like (should be a power of 2)");
@@ -191,8 +232,14 @@ public class DaaProject {
 		System.out.println("What % of entries should be filled?");
 		int sparseness = scanner.nextInt();
 
-		LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness);
-		List<String> filesGenerated = largeMatrixGenerator.generate();
+		System.out.println("Do you want to generate large numbers as elements? (true or false) ");
+		boolean generateLargeNumbers = scanner.nextBoolean();
+
+		System.out.println("How many digits should each number have (has to be power of 2)");
+		int digits = scanner.nextInt();
+
+		LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness, generateLargeNumbers);
+		List<String> filesGenerated = largeMatrixGenerator.generate(digits);
 		System.out.println("Generated files are ");
 		for (String file : filesGenerated) {
 			System.out.println(file);
