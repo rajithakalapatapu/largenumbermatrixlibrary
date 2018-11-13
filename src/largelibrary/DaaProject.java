@@ -32,6 +32,17 @@ public class DaaProject {
 					readAndMultiplyLargeNumber(file);
 					break;
 				case 2:
+					System.out.println("Enter the path to file 1");
+					String file1 = scanner.next();
+					System.out.println("Enter the path to file 2");
+					String file2 = scanner.next();
+					LargeMatrix traditionalResult = readAndMultiplyLargeMatricesTraditional(file1, file2);
+					System.out.println("Traditional result is: ");
+					traditionalResult.print();
+					LargeMatrix strassensResult = readAndMultiplyLargeMatricesStrassens(file1, file2);
+					System.out.println("Strassens result is: ");
+					strassensResult.print();
+					System.out.println("Are the two results equal? " + traditionalResult.isEqual(strassensResult));
 					break;
 				case 3:
 					break;
@@ -41,10 +52,12 @@ public class DaaProject {
 				default:
 					System.out.println("Invalid entry .... \n" + sb.toString());
 				}
+				System.out.println("Done... \n" + sb.toString());
 				enteredText = scanner.next();
 			}
 
 			scanner.close();
+			System.out.println("We've quit the program");
 		} catch (FileNotFoundException e) {
 			System.err.println("Exception when opening file " + e.getMessage());
 		} catch (IOException e) {
@@ -146,7 +159,7 @@ public class DaaProject {
 				+ LargeNumber.longMultiplication(multiplicands.get(0), multiplicands.get(1)));
 	}
 
-	private static void readAndMultiplyLargeMatricesTraditional(String file1, String file2) {
+	private static LargeMatrix readAndMultiplyLargeMatricesTraditional(String file1, String file2) {
 		LargeMatrixReader largeMatrixReader = new LargeMatrixReader();
 		LargeMatrix a = largeMatrixReader.parseFileContents(file1);
 //		a.print();
@@ -155,11 +168,10 @@ public class DaaProject {
 //		b.print();
 
 		LargeMatrix result = a.multiplyTraditional(b);
-		result.print();
-
+		return result;
 	}
 
-	private static void readAndMultiplyLargeMatricesStrassens(String file1, String file2) {
+	private static LargeMatrix readAndMultiplyLargeMatricesStrassens(String file1, String file2) {
 		LargeMatrixReader largeMatrixReader = new LargeMatrixReader();
 		LargeMatrix a = largeMatrixReader.parseFileContents(file1);
 //		a.print();
@@ -168,8 +180,7 @@ public class DaaProject {
 //		b.print();
 
 		LargeMatrix result = a.multiplyStrassens(b);
-		result.print();
-
+		return result;
 	}
 
 	private static void largeMatrixGenerator() {
