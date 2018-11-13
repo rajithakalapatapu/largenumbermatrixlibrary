@@ -10,23 +10,58 @@ import java.util.Scanner;
 public class DaaProject {
 
 	public static void main(String[] args) {
-        try {
-			System.out.println("Starting timing studies for LargeNumber multiplication");
-			LargeNumber.generateTimings();
-			System.out.println("Completed timing studies for LargeNumber multiplication...");
+		try {
+			Scanner scanner = new Scanner(System.in);
 
-			System.out.println("Starting timing studies for LargeMatrix multiplication");
-			generateTimingsForMatrixMultiplication();
-			System.out.println("Completed timing studies for LargeMatrix multiplication...");
-			
-			System.out.println("Done!");
+			StringBuilder sb = new StringBuilder();
+			sb.append("What would you like to do? \n");
+			sb.append("Press 1 for large number multiplication \n");
+			sb.append("Press 2 for large matrix multiplication \n");
+			sb.append("Press 3 for large matrix with large number multiplication \n");
+			sb.append("Press 4 for all timing studies\n");
+			sb.append("Press quit to stop testing \n");
+			System.out.println(sb.toString());
+			String enteredText = scanner.next();
+
+			while (! enteredText.equalsIgnoreCase("quit") ) {
+				Integer mode = Integer.valueOf(enteredText);
+				switch (mode) {
+				case 1:
+					System.out.println("Enter the path to the file");
+					String file = scanner.next();
+					readAndMultiplyLargeNumber(file);
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					runTimingStudies();
+					break;
+				default:
+					System.out.println("Invalid entry .... \n" + sb.toString());
+				}
+				enteredText = scanner.next();
+			}
+
+			scanner.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Exception when opening file " + e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Exception when file IO" + e.getMessage());
 		}
+	}
+
+	private static void runTimingStudies() throws IOException, FileNotFoundException {
+		System.out.println("Starting timing studies for LargeNumber multiplication");
+		LargeNumber.generateTimings();
+		System.out.println("Completed timing studies for LargeNumber multiplication...");
+
+		System.out.println("Starting timing studies for LargeMatrix multiplication");
+		generateTimingsForMatrixMultiplication();
+		System.out.println("Completed timing studies for LargeMatrix multiplication...");
+
+		System.out.println("Done!");
 	}
 
 	private static void generateTimingsForMatrixMultiplication() {
@@ -93,19 +128,22 @@ public class DaaProject {
 
 	}
 
-	private static void readAndMultiplyLargeNumber(String file) {
+	private static void readAndMultiplyLargeNumber(String file) throws FileNotFoundException {
+		if (file.isEmpty()) {
+			System.err.println("Invalid file specified");
+		}
+
 		LargeNumberReader largeNumberReader = new LargeNumberReader();
-		List<LargeNumberOld> multiplicands = largeNumberReader.readFromFile(file);
+		List<String> multiplicands = largeNumberReader.readFromFile(file);
 
-		LargeNumberOld a = multiplicands.get(0);
-		LargeNumberOld b = multiplicands.get(1);
-		a.print();
-		System.out.println(a.numberOfDigits());
-		b.print();
-		System.out.println(b.numberOfDigits());
-		a.add(b).print();
+		System.out.println("Product via karatsuba algorithm is "
+				+ LargeNumber.karatsuba(multiplicands.get(0), multiplicands.get(1)));
 
-//		System.out.println(a.multiply(b));
+		System.out.println(
+				"Product via gauss algorithm is " + LargeNumber.gauss(multiplicands.get(0), multiplicands.get(1)));
+
+		System.out.println("Product via long multiplication algorithm is "
+				+ LargeNumber.longMultiplication(multiplicands.get(0), multiplicands.get(1)));
 	}
 
 	private static void readAndMultiplyLargeMatricesTraditional(String file1, String file2) {
