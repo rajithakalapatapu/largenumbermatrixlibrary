@@ -218,7 +218,7 @@ public class LargeNumber {
 		return result;
 	}
 
-	private static String longMultiplication(String d1, String d2) {
+	public static String longMultiplication(String d1, String d2) {
 		// TODO Auto-generated method stub
 		byte[] left = stringToDigits(d1);
 		byte[] right = stringToDigits(d2);
