@@ -137,8 +137,9 @@ public class LargeMatrixWithLargeNumbers {
 		LargeMatrixWithLargeNumbers result = new LargeMatrixWithLargeNumbers(this.dimensions);
 
 		if (this.dimensions == 1) {
-			result.setDataAt(0, 0, 
-					String.valueOf(Integer.valueOf(this.dataAt(0, 0)) * Integer.valueOf(other.dataAt(0, 0))));
+			System.out.println("base case" + this.dataAt(0, 0) + "\t"+ other.dataAt(0, 0));
+			result.setDataAt(0, 0, LargeNumber.karatsuba(this.dataAt(0, 0), other.dataAt(0, 0)));
+			System.out.println(result.dataAt(0, 0));
 		} else {
 			LargeMatrixWithLargeNumbers this11 = new LargeMatrixWithLargeNumbers(result.dimensions / 2);
 			LargeMatrixWithLargeNumbers this12 = new LargeMatrixWithLargeNumbers(result.dimensions / 2);
