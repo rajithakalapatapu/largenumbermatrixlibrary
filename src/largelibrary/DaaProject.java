@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class DaaProject {
 
 	public static void main(String[] args) {
+//		largeMatrixGenerator();
 		runProjectInLoop();
 	}
 
@@ -224,7 +225,7 @@ public class DaaProject {
 
 	private static void largeMatrixGenerator() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("How many dimensions would you like (should be a power of 2)");
+		System.out.println("How many dimensions would you like (2 will be raised this many times to get the actual dimension of matrix)");
 		int dimensions = scanner.nextInt();
 
 		System.out.println("What % of entries should be filled?");
@@ -233,8 +234,11 @@ public class DaaProject {
 		System.out.println("Do you want to generate large numbers as elements? (true or false) ");
 		boolean generateLargeNumbers = scanner.nextBoolean();
 
-		System.out.println("How many digits should each number have (has to be power of 2)");
-		int digits = scanner.nextInt();
+		int digits = 1;
+		if (generateLargeNumbers) {
+			System.out.println("How many digits should each number have (2 will be raised this many times to get the actual # of digits)");
+			digits = scanner.nextInt();
+		}
 
 		LargeMatrixGenerator largeMatrixGenerator = new LargeMatrixGenerator(dimensions, sparseness, generateLargeNumbers);
 		List<String> filesGenerated = largeMatrixGenerator.generate(digits);

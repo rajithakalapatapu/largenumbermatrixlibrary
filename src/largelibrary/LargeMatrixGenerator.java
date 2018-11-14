@@ -14,7 +14,7 @@ public class LargeMatrixGenerator {
 	private boolean generateLargeNumbers = false;
 
 	public LargeMatrixGenerator(int dimensions, int sparseness, boolean generateLargeNumbers) {
-		this.dimensions = dimensions;
+		this.dimensions = (int) Math.pow(2, dimensions);
 		this.sparseness = sparseness;
 		this.generateLargeNumbers = generateLargeNumbers;
 	}
@@ -58,7 +58,7 @@ public class LargeMatrixGenerator {
 				sb.append(String.valueOf(random.nextInt(dimensions))); // column
 				sb.append(',');
 				if (this.generateLargeNumbers) {
-					sb.append(LargeNumber.generateRandomNumber(digits) + "1");
+					sb.append(LargeNumber.generateRandomNumber((int) Math.pow(2, digits)));
 				} else {
 					sb.append(String.valueOf(random.nextInt(10) + 1)); // value of element at row, column - avoid generating 0
 				}

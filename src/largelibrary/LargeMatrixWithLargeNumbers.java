@@ -108,7 +108,7 @@ public class LargeMatrixWithLargeNumbers {
 		LargeMatrixWithLargeNumbers result = new LargeMatrixWithLargeNumbers(this.dimensions);
 		for (int i = 0; i < dimensions; i++) {
 			for (int j = 0; j < dimensions; j++) {
-				String sum = LargeNumber.appendZero("", dimensions);
+				String sum = "0";
 				for (int k = 0; k < dimensions; k++) {
 					sum = LargeNumber.sumString(sum, LargeNumber.karatsuba(this.dataAt(i, k), other.dataAt(k, j)));
 				}
