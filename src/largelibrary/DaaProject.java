@@ -11,8 +11,6 @@ public class DaaProject {
 
 	public static void main(String[] args) {
 		runProjectInLoop();
-//		largeMatrixGenerator();
-//		readAndMultiplyLargeMatricesWithLargeNumbersStrassens("matrix-1.txt", "matrix-2.txt").print();
 	}
 
 	private static void runProjectInLoop() {
