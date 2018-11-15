@@ -14,7 +14,7 @@ public class LargeMatrixGenerator {
 	private boolean generateLargeNumbers = false;
 
 	public LargeMatrixGenerator(int dimensions, int sparseness, boolean generateLargeNumbers) {
-		this.dimensions = (int) Math.pow(2, dimensions);
+		this.dimensions = dimensions;
 		this.sparseness = sparseness;
 		this.generateLargeNumbers = generateLargeNumbers;
 	}
@@ -22,14 +22,14 @@ public class LargeMatrixGenerator {
 	public List<String> generate(int digits) {
 		List<String> generatedFiles = new ArrayList<>();
 
-		System.out.println("Generating dense matrix of dimensions " + dimensions);
+		System.out.println("Generating matrix of dimensions " + dimensions);
 
 		String file1 = "matrix-1.txt";
-		generateMatrix(file1, dimensions, sparseness, digits);
+		generateMatrix(file1, this.dimensions, this.sparseness, digits);
 		generatedFiles.add(file1);
 
 		String file2 = "matrix-2.txt";
-		generateMatrix(file2, dimensions, sparseness, digits);
+		generateMatrix(file2, this.dimensions, this.sparseness, digits);
 		generatedFiles.add(file2);
 
 		return generatedFiles;
@@ -60,7 +60,8 @@ public class LargeMatrixGenerator {
 				if (this.generateLargeNumbers) {
 					sb.append(LargeNumber.generateRandomNumber((int) Math.pow(2, digits)));
 				} else {
-					sb.append(String.valueOf(random.nextInt(10) + 1)); // value of element at row, column - avoid generating 0
+					sb.append(String.valueOf(random.nextInt(10) + 1)); // value of element at row, column - avoid
+																		// generating 0
 				}
 				sb.append(')');
 				sb.append('\n');

@@ -32,7 +32,8 @@ public class LargeNumber {
 			sb.append('\n');
 
 			for (int i = 0; i <= power; i++) {
-				sb.append(i + "," + runLongMultiplication(i, i) + ", " + runGauss(i, i) + "," + runKaratsuba(i, i) + "\n");
+				sb.append(i + "," + runLongMultiplication(i, i) + ", " + runGauss(i, i) + "," + runKaratsuba(i, i)
+						+ "\n");
 			}
 
 			fr.write(sb.toString());
@@ -218,8 +219,20 @@ public class LargeNumber {
 		return result;
 	}
 
-	public static String longMultiplication(String d1, String d2) {
-		// TODO Auto-generated method stub
+	public static String longMultiplication(String x, String y) {
+//		System.out.println("longMultiplication " + x + " \t x \t " + y);
+		if (y.charAt(0) == '-' && x.charAt(0) != '-') {
+			return '-' + longMultiplicationUtil(x, y.substring(1));
+		} else if (x.charAt(0) == '-' && y.charAt(0) != '-') {
+			return '-' + longMultiplicationUtil(x.substring(1), y);
+		} else if (x.charAt(0) == '-' && y.charAt(0) == '-') {
+			return longMultiplicationUtil(x.substring(1), y.substring(1));
+		} else {
+			return longMultiplicationUtil(x, y);
+		}
+	}
+
+	private static String longMultiplicationUtil(String d1, String d2) {
 		byte[] left = stringToDigits(d1);
 		byte[] right = stringToDigits(d2);
 		byte[] result = new byte[left.length + right.length];
@@ -251,6 +264,19 @@ public class LargeNumber {
 	}
 
 	public static String gauss(String x, String y) {
+//		System.out.println("gauss " + x + " \t x \t " + y);
+		if (y.charAt(0) == '-' && x.charAt(0) != '-') {
+			return '-' + gaussUtil(x, y.substring(1));
+		} else if (x.charAt(0) == '-' && y.charAt(0) != '-') {
+			return '-' + gaussUtil(x.substring(1), y);
+		} else if (x.charAt(0) == '-' && y.charAt(0) == '-') {
+			return gaussUtil(x.substring(1), y.substring(1));
+		} else {
+			return gaussUtil(x, y);
+		}
+	}
+
+	private static String gaussUtil(String x, String y) {
 		// for small num, direct multiply
 		if (x.length() <= 2 && y.length() <= 2) {
 			return String.valueOf(Integer.valueOf(x) * Integer.valueOf(y));
@@ -290,6 +316,19 @@ public class LargeNumber {
 	}
 
 	public static String karatsuba(String x, String y) {
+//		System.out.println("karatsuba " + x + " \t x \t " + y);
+		if (y.charAt(0) == '-' && x.charAt(0) != '-') {
+			return '-' + karatsubaUtil(x, y.substring(1));
+		} else if (x.charAt(0) == '-' && y.charAt(0) != '-') {
+			return '-' + karatsubaUtil(x.substring(1), y);
+		} else if (x.charAt(0) == '-' && y.charAt(0) == '-') {
+			return karatsubaUtil(x.substring(1), y.substring(1));
+		} else {
+			return karatsubaUtil(x, y);
+		}
+	}
+
+	private static String karatsubaUtil(String x, String y) {
 		// for small num, direct multiply
 		if (x.length() <= 2 && y.length() <= 2) {
 			return String.valueOf(Integer.valueOf(x) * Integer.valueOf(y));
@@ -323,7 +362,6 @@ public class LargeNumber {
 		String S5 = sumString(sumString(appendZero(S1, m * 2), S2), appendZero(S4, m));
 		// 2m is x.length//
 		return S5;
-
 	}
 
 	// find max of 2 strings//

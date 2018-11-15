@@ -121,7 +121,7 @@ public class LargeMatrixWithLargeNumbers {
 	public boolean isEqual(LargeMatrixWithLargeNumbers other) {
 		for (int i = 0; i < dimensions; i++) {
 			for (int j = 0; j < dimensions; j++) {
-				if (this.dataAt(i, j).compareTo(other.dataAt(i, j)) != 0) {
+				if (!this.dataAt(i, j).equalsIgnoreCase(other.dataAt(i, j))) {
 //					System.out.println("whatsup?");
 //					System.out.println(this.dataAt(i, j));
 //					System.out.println(other.dataAt(i, j));
@@ -137,9 +137,9 @@ public class LargeMatrixWithLargeNumbers {
 		LargeMatrixWithLargeNumbers result = new LargeMatrixWithLargeNumbers(this.dimensions);
 
 		if (this.dimensions == 1) {
-			System.out.println("base case" + this.dataAt(0, 0) + "\t"+ other.dataAt(0, 0));
+//			System.out.println("dimensions are 1 - base case " + this.dataAt(0, 0) + "\t" + other.dataAt(0, 0));
 			result.setDataAt(0, 0, LargeNumber.karatsuba(this.dataAt(0, 0), other.dataAt(0, 0)));
-			System.out.println(result.dataAt(0, 0));
+//			System.out.println(result.dataAt(0, 0));
 		} else {
 			LargeMatrixWithLargeNumbers this11 = new LargeMatrixWithLargeNumbers(result.dimensions / 2);
 			LargeMatrixWithLargeNumbers this12 = new LargeMatrixWithLargeNumbers(result.dimensions / 2);
@@ -151,14 +151,30 @@ public class LargeMatrixWithLargeNumbers {
 			LargeMatrixWithLargeNumbers other22 = new LargeMatrixWithLargeNumbers(result.dimensions / 2);
 
 			this.split(this11, 0, 0);
+//			System.out.println("Splitting at 0, 0");
+//			this11.print();
 			this.split(this12, 0, this.dimensions / 2);
+//			System.out.println("Splitting at " + "0," + this.dimensions / 2);
+//			this12.print();
 			this.split(this21, this.dimensions / 2, 0);
+//			System.out.println("Splitting at " + this.dimensions / 2 + "0");
+//			this21.print();
 			this.split(this22, this.dimensions / 2, this.dimensions / 2);
+//			System.out.println("Splitting at " + this.dimensions / 2 + this.dimensions / 2);
+//			this22.print();
 
 			other.split(other11, 0, 0);
+//			System.out.println("Splitting at 0, 0");
+//			other11.print();
 			other.split(other12, 0, other.dimensions / 2);
+//			System.out.println("Splitting at " + "0," + other.dimensions / 2);
+//			other12.print();
 			other.split(other21, other.dimensions / 2, 0);
+//			System.out.println("Splitting at " + other.dimensions / 2 + "0");
+//			other21.print();
 			other.split(other22, other.dimensions / 2, other.dimensions / 2);
+//			System.out.println("Splitting at " + other.dimensions / 2 + other.dimensions / 2);
+//			other22.print();
 
 			LargeMatrixWithLargeNumbers m1 = this11.add(this22).multiplyStrassens(other11.add(other22));
 			LargeMatrixWithLargeNumbers m2 = this21.add(this22).multiplyStrassens(other11);
@@ -168,15 +184,35 @@ public class LargeMatrixWithLargeNumbers {
 			LargeMatrixWithLargeNumbers m6 = this21.subtract(this11).multiplyStrassens(other11.add(other12));
 			LargeMatrixWithLargeNumbers m7 = this12.subtract(this22).multiplyStrassens(other21.add(other22));
 
+//			System.out.println("all m matrices print now");
+//			m1.print();
+//			m2.print();
+//			m3.print();
+//			m4.print();
+//			m5.print();
+//			m6.print();
+//			m7.print();
+//			System.out.println("all m matrices print DONE");
+
 			LargeMatrixWithLargeNumbers result11 = m1.add(m4).subtract(m5).add(m7);
 			LargeMatrixWithLargeNumbers result12 = m3.add(m5);
 			LargeMatrixWithLargeNumbers result21 = m2.add(m4);
 			LargeMatrixWithLargeNumbers result22 = m1.add(m3).subtract(m2).add(m6);
 
+//			System.out.println("all result matrices print now");
+//			result11.print();
+//			result12.print();
+//			result21.print();
+//			result22.print();
+//			System.out.println("all result matrices print DONE");
+
 			result11.join(result, 0, 0);
 			result12.join(result, 0, result.dimensions / 2);
 			result21.join(result, result.dimensions / 2, 0);
 			result22.join(result, result.dimensions / 2, result.dimensions / 2);
+
+//			System.out.println("final result");
+//			result.print();
 		}
 
 		return result;
