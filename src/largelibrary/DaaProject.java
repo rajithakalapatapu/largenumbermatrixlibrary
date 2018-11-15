@@ -93,6 +93,10 @@ public class DaaProject {
 		generateTimingsForMatrixMultiplication();
 		System.out.println("Completed timing studies for LargeMatrix multiplication...");
 
+		System.out.println("Starting timing studies for LargeMatrix with LargeNumbers multiplication");
+		generateTimingsForMatrixWithLargeNumberMultiplication();
+		System.out.println("Completed timing studies for LargeMatrix with LargeNumbers multiplication...");
+
 		System.out.println("Done!");
 	}
 
@@ -162,6 +166,10 @@ public class DaaProject {
 
 	}
 
+	private static void generateTimingsForMatrixWithLargeNumberMultiplication() {
+		LargeMatrixWithLargeNumbers.generateAllSixTimings();
+	}
+
 	private static void readAndMultiplyLargeNumber(String file) throws FileNotFoundException {
 		if (file.isEmpty()) {
 			System.err.println("Invalid file specified");
@@ -213,7 +221,7 @@ public class DaaProject {
 		LargeMatrixWithLargeNumbers b = largeMatrixWithLargeNumbersReader.parseFileContents(file2);
 //		b.print();
 
-		return a.multiplyStrassens(b);
+		return a.multiplyStrassensKaratsuba(b);
 	}
 
 	private static LargeMatrixWithLargeNumbers readAndMultiplyLargeMatricesWithLargeNumbersTraditional(String file1,
@@ -225,7 +233,7 @@ public class DaaProject {
 		LargeMatrixWithLargeNumbers b = largeMatrixWithLargeNumbersReader.parseFileContents(file2);
 //		b.print();
 
-		return a.multiplyTraditional(b);
+		return a.multiplyTraditionalKaratsuba(b);
 	}
 
 	private static void largeMatrixGenerator() {
