@@ -10,7 +10,7 @@ public class LargeNumber {
 
 	public static void generateTimings() throws IOException, FileNotFoundException {
 
-		int power = 12; // this will generate a number with 2^power digits
+		int power = 15; // this will generate a number with 2^power digits
 		// if you set it to 20 it will generate a number with 1,048,576 digits
 
 		File file = new File("large_number_results.csv");
@@ -206,75 +206,107 @@ public class LargeNumber {
 
 	}
 
-	public static byte[] stringTobytes(String n1) {
-		byte[] output = new byte[n1.length()];
-		for (int i = 0; i < n1.length(); i++) {
-			char c = n1.charAt(i);
-			if (c < '0' || c > '9') {
-				throw new RuntimeException("digit other than 0-9 seen - aborting...");
-			}
-			output[n1.length() - 1 - i] = (byte) (c - '0');
-		}
-		return output;
-	}
-
+	/*
+	 * public static byte[] stringTobytes(String n1) { byte[] output = new
+	 * byte[n1.length()]; for (int i = 0; i < n1.length(); i++) { char c =
+	 * n1.charAt(i); if (c < '0' || c > '9') { throw new
+	 * RuntimeException("digit other than 0-9 seen - aborting..."); }
+	 * output[n1.length() - 1 - i] = (byte) (c - '0'); } return output; }
+	 */
 	public static String longMultiplication(String x, String y) {
 //		System.out.println("longMultiplication " + x + " \t x \t " + y);
 		if (y.charAt(0) == '-' && x.charAt(0) != '-') {
-			return '-' + longMultiplicationUtil(x, y.substring(1));
+			return '-' + longMult(x, y.substring(1));
 		} else if (x.charAt(0) == '-' && y.charAt(0) != '-') {
-			return '-' + longMultiplicationUtil(x.substring(1), y);
+			return '-' + longMult(x.substring(1), y);
 		} else if (x.charAt(0) == '-' && y.charAt(0) == '-') {
-			return longMultiplicationUtil(x.substring(1), y.substring(1));
+			return longMult(x.substring(1), y.substring(1));
 		} else {
-			return longMultiplicationUtil(x, y);
+			return longMult(x, y);
 		}
 	}
 
-	private static String longMultiplicationUtil(String d1, String d2) {
-		byte[] finalleft = stringTobytes(d1);
-//		printByte(finalleft);
-		byte[] finalright = stringTobytes(d2);
-//		printByte(finalright);
-		byte[] output = new byte[finalleft.length + finalright.length];
-//		printByte(output);
-		for (int fri = 0; fri < finalright.length; fri++) { // fri - final right index
-			byte rightDigit = finalright[fri];
-			byte temp = 0;
-			for (int fli = 0; fli < finalleft.length; fli++) { // fli - final left index
-				temp += output[fli + fri];
-				temp += rightDigit * finalleft[fli];
-				output[fli + fri] = (byte) (temp % 10);
-				temp = (byte) (temp / 10);
+	public static String longMult(String x, String y) {
+		// x*y
+		// 123*4567
+		int A = Math.min(x.length(), y.length());
+		String[] arr = new String[A];
+		if (A == x.length()) {
+			int u = 0;
+			for (int i = x.length() - 1; i >= 0; i--) {
+				int carry = 0;
+				StringBuilder s = new StringBuilder();
+				for (int j = y.length() - 1; j >= 0; j--) {
+					int x1 = x.charAt(i) - '0';
+					int y1 = y.charAt(j) - '0';
+					int digProd = x1 * y1;
+					int r = digProd + carry;
+					carry = r / 10;
+					int r1 = r % 10;
+					s.append(r1);
+				}
+
+				if (carry != 0) {
+					s.append(carry);
+				}
+				String s1 = s.reverse().toString();
+				arr[u] = s1;
+				u++;
 			}
-			int destIndex = fri + finalleft.length;
-			while (temp != 0) {
-				output[destIndex] = (byte) (temp % 10);
-				temp = (byte) (temp / 10);
-				destIndex++;
+		} else {
+			int u = 0;
+			for (int i = y.length() - 1; i >= 0; i--) {
+				int carry = 0;
+				StringBuilder s = new StringBuilder();
+				for (int j = x.length() - 1; j >= 0; j--) {
+					int x1 = y.charAt(i) - '0';
+					int y1 = x.charAt(j) - '0';
+					int digProd = x1 * y1;
+					int r = digProd + carry;
+					carry = r / 10;
+					int r1 = r % 10;
+					s.append(r1);
+				}
+				String s1 = s.reverse().toString();
+				arr[u] = s1;
+				u++;
 			}
 		}
 
-		StringBuilder stringResultBuilder = new StringBuilder(output.length);
-		for (int i = output.length - 1; i >= 0; i--) {
-			byte digit = output[i];
-			if (digit != 0 || stringResultBuilder.length() > 0) {
-				stringResultBuilder.append((char) (digit + '0'));
-			}
+		for (int i = 0; i < A; i++) {
+			arr[i] = appendZero(arr[i], i);
 		}
-		if (stringResultBuilder.length() == 0) {
-			return "0";
+
+		String sum = arr[0];
+		for (int i = 1; i < A; i++) {
+			sum = sumString(sum, arr[i]);
 		}
-		return stringResultBuilder.toString();
+		return sum;
 	}
 
-	private static void printByte(byte[] result) {
-		for (int i = 0; i < result.length; i++) {
-			System.out.println(result[i] + " ");
-		}
-		System.out.println("");
-	}
-
+	/*
+	 * private static String longMultiplicationUtil(String d1, String d2) { byte[]
+	 * finalleft = stringTobytes(d1); // printByte(finalleft); byte[] finalright =
+	 * stringTobytes(d2); // printByte(finalright); byte[] output = new
+	 * byte[finalleft.length + finalright.length]; // printByte(output); for (int
+	 * fri = 0; fri < finalright.length; fri++) { // fri - final right index byte
+	 * rightDigit = finalright[fri]; byte temp = 0; for (int fli = 0; fli <
+	 * finalleft.length; fli++) { // fli - final left index temp += output[fli +
+	 * fri]; temp += rightDigit * finalleft[fli]; output[fli + fri] = (byte) (temp %
+	 * 10); temp = (byte) (temp / 10); } int destIndex = fri + finalleft.length;
+	 * while (temp != 0) { output[destIndex] = (byte) (temp % 10); temp = (byte)
+	 * (temp / 10); destIndex++; } }
+	 * 
+	 * StringBuilder stringResultBuilder = new StringBuilder(output.length); for
+	 * (int i = output.length - 1; i >= 0; i--) { byte digit = output[i]; if (digit
+	 * != 0 || stringResultBuilder.length() > 0) { stringResultBuilder.append((char)
+	 * (digit + '0')); } } if (stringResultBuilder.length() == 0) { return "0"; }
+	 * return stringResultBuilder.toString(); }
+	 * 
+	 * private static void printByte(byte[] result) { for (int i = 0; i <
+	 * result.length; i++) { System.out.println(result[i] + " "); }
+	 * System.out.println(""); }
+	 */
 	public static String gauss(String x, String y) {
 //		System.out.println("gauss " + x + " \t x \t " + y);
 		if (y.charAt(0) == '-' && x.charAt(0) != '-') {
@@ -545,14 +577,19 @@ public class LargeNumber {
 
 	// trim 0's in the start of a string in diff
 	public static String trimZero(String x) {
-		StringBuilder sb = new StringBuilder();
+		String prefix = "";
+		if (!x.isEmpty() && x.charAt(0) == '-') {
+			prefix = "-";
+			x = x.substring(1);
+		}
+
 		for (int i = 0; i < x.length(); i++) {
 			if (x.charAt(i) != '0') {
-				sb.append(x.substring(i));
-				return sb.toString();
+				String x1 = x.substring(i);
+				return prefix + x1;
 			}
 		}
-		return "0";
+		return prefix + "0";
 	}
 
 	// karatsuba S5 function_append 0's
@@ -563,7 +600,7 @@ public class LargeNumber {
 		for (int i = 0; i < length; i++) {
 			sb.append(0);
 		}
-		return sb.toString();
+		return trimZero(sb.toString());
 	}
 
 	public static String generateRandomNumber(int digits) {
