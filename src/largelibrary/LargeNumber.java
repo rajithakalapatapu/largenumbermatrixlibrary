@@ -31,8 +31,8 @@ public class LargeNumber {
 			sb.append('\n');
 
 			for (int i = 0; i <= power; i++) {
-				sb.append(i + "," + runLongMultiplication(i, i) + ", " + runGauss(i, i) + "," + runKaratsuba(i, i)
-						+ "\n");
+				sb.append((int) Math.pow(2, i) + "," + runLongMultiplication(i, i) + ", " + runGauss(i, i) + ","
+						+ runKaratsuba(i, i) + "\n");
 			}
 
 			fr.write(sb.toString());
@@ -238,19 +238,19 @@ public class LargeNumber {
 //		printByte(finalright);
 		byte[] output = new byte[finalleft.length + finalright.length];
 //		printByte(output);
-		for (int fri = 0; fri < finalright.length; fri++) { //fri - final right index
+		for (int fri = 0; fri < finalright.length; fri++) { // fri - final right index
 			byte rightDigit = finalright[fri];
 			byte temp = 0;
-			for (int fli = 0; fli < finalleft.length; fli++) {
+			for (int fli = 0; fli < finalleft.length; fli++) { // fli - final left index
 				temp += output[fli + fri];
 				temp += rightDigit * finalleft[fli];
 				output[fli + fri] = (byte) (temp % 10);
-				temp /= 10;
+				temp = (byte) (temp / 10);
 			}
 			int destIndex = fri + finalleft.length;
 			while (temp != 0) {
 				output[destIndex] = (byte) (temp % 10);
-				temp /= 10;
+				temp = (byte) (temp / 10);
 				destIndex++;
 			}
 		}
@@ -269,7 +269,7 @@ public class LargeNumber {
 	}
 
 	private static void printByte(byte[] result) {
-		for(int i = 0; i < result.length; i++) {
+		for (int i = 0; i < result.length; i++) {
 			System.out.println(result[i] + " ");
 		}
 		System.out.println("");
