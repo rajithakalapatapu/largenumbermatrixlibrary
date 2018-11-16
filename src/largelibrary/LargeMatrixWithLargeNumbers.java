@@ -142,7 +142,7 @@ public class LargeMatrixWithLargeNumbers {
 			sb.append("Strassens Multiplication + Gauss - time taken (milli seconds)");
 			sb.append(",");
 			sb.append("Strassens Multiplication + Karatsuba - time taken (milli seconds)");
-			sb.append(",");
+			sb.append("\n");
 
 			int[] sparsenessValues = { 10, 25, 50, 75, 100 };
 			for (int sparseness : sparsenessValues) {
@@ -261,6 +261,7 @@ public class LargeMatrixWithLargeNumbers {
 			for (int j = 0; j < dimensions; j++) {
 				String sum = "0";
 				for (int k = 0; k < dimensions; k++) {
+//					System.out.println("left = " + this.dataAt(i, k) + " right = " + other.dataAt(k, j));
 					sum = LargeNumber.sumString(sum,
 							LargeNumber.longMultiplication(this.dataAt(i, k), other.dataAt(k, j)));
 				}

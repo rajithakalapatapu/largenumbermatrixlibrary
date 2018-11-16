@@ -17,7 +17,7 @@ public class LargeNumberGenerator {
 		try {
 			fr = new FileWriter(file);
 			for (int i = 0; i < numbers; i++) {
-				fr.write(String.valueOf(generateLargeNumber(digits)));
+				fr.write(generateLargeNumber(digits));
 				fr.write("\n");
 			}
 		} catch (IOException e) {
@@ -32,15 +32,14 @@ public class LargeNumberGenerator {
 		}
 	}
 
-	private BigInteger generateLargeNumber(int digits) {
+	private String generateLargeNumber(int digits) {
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
 		for (int i = 0; i < digits; i++) {
 			sb.append(random.nextInt(10));
 		}
 		String generatedNumber = sb.toString();
-		BigInteger b = new BigInteger(generatedNumber);
-		return b;
+		return sb.toString();
 	}
 
 }

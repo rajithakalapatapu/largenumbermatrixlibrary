@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Random;
 
 public class LargeNumber {
@@ -253,12 +252,13 @@ public class LargeNumber {
 				destPos++;
 			}
 		}
+
 		StringBuilder stringResultBuilder = new StringBuilder(result.length);
 		for (int i = result.length - 1; i >= 0; i--) {
 			byte digit = result[i];
-			if (digit != 0 || stringResultBuilder.length() > 0) {
-				stringResultBuilder.append((char) (digit + '0'));
-			}
+//			if (true) {
+			stringResultBuilder.append((char) (digit + '0'));
+//			}
 		}
 		return stringResultBuilder.toString();
 	}
@@ -392,6 +392,7 @@ public class LargeNumber {
 		// x +(-y) = x-y
 		// -x +(+y) = (y-x)
 		// -x + (-y) = -(x+y)
+//		System.out.println("sumString \t x:" + x + " \t y:" + y);
 		if (y.charAt(0) == '-' && x.charAt(0) != '-') {
 			return diffString(x, y.substring(1));
 		} else if (x.charAt(0) == '-' && y.charAt(0) != '-') {
