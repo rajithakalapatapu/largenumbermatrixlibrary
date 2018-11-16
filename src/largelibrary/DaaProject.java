@@ -109,6 +109,7 @@ public class DaaProject {
 
 		try {
 			fr = new FileWriter(file);
+			sb.append("Large Matrix Multiplication");
 			sb.append("dimensions");
 			sb.append(",");
 			sb.append("sparseness");
