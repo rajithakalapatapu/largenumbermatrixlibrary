@@ -206,16 +206,16 @@ public class LargeNumber {
 
 	}
 
-	public static byte[] stringToDigits(String num) {
-		byte[] result = new byte[num.length()];
-		for (int i = 0; i < num.length(); i++) {
-			char c = num.charAt(i);
+	public static byte[] stringTobytes(String n1) {
+		byte[] output = new byte[n1.length()];
+		for (int i = 0; i < n1.length(); i++) {
+			char c = n1.charAt(i);
 			if (c < '0' || c > '9') {
-				throw new IllegalArgumentException("Invalid digit " + c + " found at position " + i);
+				throw new RuntimeException("digit other than 0-9 seen - aborting...");
 			}
-			result[num.length() - 1 - i] = (byte) (c - '0');
+			output[n1.length() - 1 - i] = (byte) (c - '0');
 		}
-		return result;
+		return output;
 	}
 
 	public static String longMultiplication(String x, String y) {
@@ -232,35 +232,47 @@ public class LargeNumber {
 	}
 
 	private static String longMultiplicationUtil(String d1, String d2) {
-		byte[] left = stringToDigits(d1);
-		byte[] right = stringToDigits(d2);
-		byte[] result = new byte[left.length + right.length];
-		for (int rightPos = 0; rightPos < right.length; rightPos++) {
-			byte rightDigit = right[rightPos];
+		byte[] finalleft = stringTobytes(d1);
+//		printByte(finalleft);
+		byte[] finalright = stringTobytes(d2);
+//		printByte(finalright);
+		byte[] output = new byte[finalleft.length + finalright.length];
+//		printByte(output);
+		for (int fri = 0; fri < finalright.length; fri++) { //fri - final right index
+			byte rightDigit = finalright[fri];
 			byte temp = 0;
-			for (int leftPos = 0; leftPos < left.length; leftPos++) {
-				temp += result[leftPos + rightPos];
-				temp += rightDigit * left[leftPos];
-				result[leftPos + rightPos] = (byte) (temp % 10);
+			for (int fli = 0; fli < finalleft.length; fli++) {
+				temp += output[fli + fri];
+				temp += rightDigit * finalleft[fli];
+				output[fli + fri] = (byte) (temp % 10);
 				temp /= 10;
 			}
-			int destPos = rightPos + left.length;
+			int destIndex = fri + finalleft.length;
 			while (temp != 0) {
-				temp += result[destPos] & 0xFFFFFFFFL;
-				result[destPos] = (byte) (temp % 10);
+				output[destIndex] = (byte) (temp % 10);
 				temp /= 10;
-				destPos++;
+				destIndex++;
 			}
 		}
 
-		StringBuilder stringResultBuilder = new StringBuilder(result.length);
-		for (int i = result.length - 1; i >= 0; i--) {
-			byte digit = result[i];
-//			if (true) {
-			stringResultBuilder.append((char) (digit + '0'));
-//			}
+		StringBuilder stringResultBuilder = new StringBuilder(output.length);
+		for (int i = output.length - 1; i >= 0; i--) {
+			byte digit = output[i];
+			if (digit != 0 || stringResultBuilder.length() > 0) {
+				stringResultBuilder.append((char) (digit + '0'));
+			}
+		}
+		if (stringResultBuilder.length() == 0) {
+			return "0";
 		}
 		return stringResultBuilder.toString();
+	}
+
+	private static void printByte(byte[] result) {
+		for(int i = 0; i < result.length; i++) {
+			System.out.println(result[i] + " ");
+		}
+		System.out.println("");
 	}
 
 	public static String gauss(String x, String y) {

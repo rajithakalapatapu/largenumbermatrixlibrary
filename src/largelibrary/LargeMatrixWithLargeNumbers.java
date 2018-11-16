@@ -205,7 +205,6 @@ public class LargeMatrixWithLargeNumbers {
 					sb.append(strassensGauss);
 					sb.append(",");
 					sb.append(strassensKaratsuba);
-					sb.append(",");
 					sb.append("\n");
 
 					fr.write(sb.toString());
